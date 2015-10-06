@@ -1,7 +1,7 @@
 FROM ubuntu
 
 # Install Python Setuptools
-RUN apt-get -y update && apt-get install -y python-setuptools
+RUN apt-get -y update && apt-get install -y build-essential libpq-dev python-dev python-setuptools
 
 # Install pip
 RUN easy_install pip
