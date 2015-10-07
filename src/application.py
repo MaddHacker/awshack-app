@@ -26,7 +26,20 @@ def hello():
 
 @app.route("/donations")
 def donations_by_state():
-    return json_query("""select * from yeswecode_total_donation_state_year1""")
+    return json_query("""select 
+    school_state,
+    primary_focus_area,
+    total_donations,
+    rank() over (partition by primary_focus_area order by total_donations desc) 
+from (
+    select 
+        school_state,
+        primary_focus_area,
+        sum(total_donations) as total_donations 
+    from 
+        donorschoose_projects 
+    group by 1,2
+    ) foo order by 2,4;""")
 
 @app.route("/detail/<state>")
 def state_detail(state):
