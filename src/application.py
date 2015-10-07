@@ -26,7 +26,7 @@ def hello():
 
 @app.route("/donations")
 def donations_by_state():
-    return json_query("""select * from yeswecode_total_donation_state_year""")
+    return json_query("""select * from yeswecode_total_donation_state_year1""")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)
