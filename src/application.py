@@ -24,6 +24,10 @@ def json_query(query,params={}):
 def hello():
     return json_query("""SELECT * from normalized_project limit 10""")
 
+@app.route("/heatmap")
+def heatmap():
+    return json_query("select * from yeswecode_project_lat_long")
+
 @app.route("/donations")
 def donations_by_state():
     return json_query("""select 
