@@ -53,7 +53,7 @@ select * from
     rank() over (partition by primary_focus_area order by sum(total_donations) desc) as donation_rank,
     rank() over (partition by primary_focus_area order by sum(total_price_including_optional_support) desc) as request_rank
   from donorschoose_projects group by school_state, primary_focus_area) foo 
-  where school_state=%(state)s;
+  where school_state=%(state)s and primary_focus_area is not null
 """
     return json_query(sql,{'state':state});
 
