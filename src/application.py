@@ -14,9 +14,9 @@ except:
 def date_handler(obj):
     return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
-def json_query(query):
+def json_query(query,params={}):
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cur.execute(query)
+    cur.execute(query,params)
     rows = cur.fetchall()
     return simplejson.dumps(rows,default=date_handler)
 
@@ -27,6 +27,10 @@ def hello():
 @app.route("/donations")
 def donations_by_state():
     return json_query("""select * from yeswecode_total_donation_state_year1""")
+
+@app.route("/detail/<state>")
+def state_detail(state):
+    return json_query("select * from yeswecode_total_donation_state_year1 where school_state=%(state)s",{'state':state});
 
 @app.after_request
 def after_request(response):
