@@ -28,5 +28,12 @@ def hello():
 def donations_by_state():
     return json_query("""select * from yeswecode_total_donation_state_year1""")
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  return response
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)
