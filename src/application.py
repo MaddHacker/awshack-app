@@ -47,7 +47,14 @@ from (
 
 @app.route("/detail/<state>")
 def state_detail(state):
-    return json_query("select * from yeswecode_total_donation_state_year1 where school_state=%(state)s",{'state':state});
+    sql = """
+select * from
+  (select school_state, primary_focus_area, rank() over
+    (partition by primary_focus_area order by sum(total_donation) desc) as donation_rank
+  from yeswecode_total_donation_state_year1 group by school_state, primary_focus_area) foo 
+  where school_state=%(state)s;
+"""
+    return json_query(sql,{'state':state});
 
 @app.after_request
 def after_request(response):
