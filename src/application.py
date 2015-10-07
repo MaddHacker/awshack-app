@@ -26,7 +26,7 @@ def hello():
 
 @app.route("/heatmap")
 def heatmap():
-    return json_query("select * from yeswecode_project_lat_long")
+    return json_query("select * from yeswecode_project_lat_long limit 1000")
 
 @app.route("/donations")
 def donations_by_state():
