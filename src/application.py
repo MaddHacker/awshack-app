@@ -45,6 +45,19 @@ from (
     group by 1,2
     ) foo order by 2,4;""")
 
+@app.route("/poverty/<state>")
+def poverty(state):
+    sql="""
+select * from
+(select 
+    school_state, 
+    poverty_level, 
+    rank() over(partition by poverty_level order by count(distinct _schoolid) desc) as school_count
+from donorschoose_projects group by 1,2) foo 
+where school_state=%(state)s;
+"""
+    return json_query(sql,{'state':state});
+
 @app.route("/detail/<state>")
 def state_detail(state):
     sql = """
