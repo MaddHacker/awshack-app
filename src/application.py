@@ -24,5 +24,9 @@ def json_query(query):
 def hello():
     return json_query("""SELECT * from normalized_project limit 10""")
 
+@app.route("/donations")
+def donations_by_state():
+    return json_query("""select * from yeswecode_total_donation_state_year""")
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)
